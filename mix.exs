@@ -15,6 +15,7 @@ defmodule PhoenixAssetPipeline.MixProject do
       description: @description,
       package: package(),
       deps: deps(),
+      aliases: aliases(),
       dialyzer: [
         plt_file: {:no_warn, "priv/plts/dialyzer.plt"}
       ],
@@ -44,14 +45,29 @@ defmodule PhoenixAssetPipeline.MixProject do
     [
       {:brotli, "~> 0.2"},
       {:coffee_compiler, "~> 0.1"},
-      {:credo, "~> 1.4.0", only: [:dev, :test], runtime: false},
+      {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.0", only: :dev, runtime: false},
-      {:ex_doc, "~> 0.22", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
       {:file_system, "~> 0.2"},
       {:phoenix, "~> 1.5.0"},
       {:phoenix_html, "~> 2.14"},
-      {:plug_cowboy, "~> 2.2"},
+      {:plug_cowboy, "~> 2.4"},
       {:sass_compiler, "~> 0.1"}
+    ]
+  end
+
+  # Aliases are shortcuts or tasks specific to the current project.
+  # For example, to install project dependencies and perform other setup tasks, run:
+  #
+  #     $ mix setup
+  #
+  # See the documentation for `Mix` for more info on aliases.
+  defp aliases do
+    [
+      update: [
+        "cmd rm -rf _build deps mix.lock",
+        "deps.get"
+      ]
     ]
   end
 end
