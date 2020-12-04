@@ -51,7 +51,7 @@ defmodule PhoenixAssetPipeline.MixProject do
       {:file_system, "~> 0.2"},
       {:phoenix, "~> 1.5.0"},
       {:phoenix_html, "~> 2.14"},
-      {:plug_cowboy, "~> 2.4"},
+      {:plug_cowboy, "~> 2.0"},
       {:sass_compiler, "~> 0.1"}
     ]
   end
