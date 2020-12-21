@@ -28,14 +28,7 @@ defmodule PhoenixAssetPipeline do
   # when there are a large number of routes
   # See https://ninenines.eu/docs/en/cowboy/2.7/guide/routing
   defp upgrade_dispatch do
-    dispatch =
-      :cowboy_router.compile([
-        {:_,
-         [
-           {:_, Cowboy2Handler, {Endpoint, []}}
-         ]}
-      ])
-
+    dispatch = :cowboy_router.compile([{:_, [{:_, Cowboy2Handler, {Endpoint, []}}]}])
     :persistent_term.put(:phoenix_asset_pipeline_dispatch, dispatch)
   end
 end

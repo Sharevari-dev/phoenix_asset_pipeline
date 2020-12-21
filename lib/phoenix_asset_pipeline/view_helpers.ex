@@ -54,14 +54,14 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
     content_tag(:style, {:safe, Sass.new(path)}, html_opts)
   end
 
-  def script_tag(conn, path, _html_opts \\ []) do
+  def script_tag(conn, path, html_opts \\ []) do
     {_, digest, integrity} = CoffeeScript.new(path)
 
-    content_tag(:script, "",
-      async: true,
-      crossorigin: "anonymous",
-      src: "#{conn.scheme}://#{conn.host}:4001/js/#{path}-#{digest}.js",
-      integrity: "sha384-" <> integrity
-    )
+    opts =
+      html_opts
+      |> Keyword.put_new(:integrity, "sha384-" <> integrity)
+      |> Keyword.put_new(:src, "#{conn.scheme}://#{conn.host}:4001/js/#{path}-#{digest}.js")
+
+    content_tag(:script, "", opts)
   end
 end
