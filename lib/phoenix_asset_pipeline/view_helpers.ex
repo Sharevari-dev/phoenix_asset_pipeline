@@ -47,9 +47,11 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
   alias PhoenixAssetPipeline.Pipelines.{CoffeeScript, Sass}
 
   def image_tag(conn, path) do
-    img_tag("#{conn.scheme}://#{conn.host}:4001/img/#{path}")
+    img_tag("#{base_url(conn)}/img/#{path}")
   end
 
+  @spec style_tag(binary, [{any, any}]) ::
+          {:safe, [binary | maybe_improper_list(any, binary | []) | 47 | 60 | 62, ...]}
   def style_tag(path, html_opts \\ []) do
     content_tag(:style, {:safe, Sass.new(path)}, html_opts)
   end
@@ -60,8 +62,13 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
     opts =
       html_opts
       |> Keyword.put_new(:integrity, "sha384-" <> integrity)
-      |> Keyword.put_new(:src, "#{conn.scheme}://#{conn.host}:4001/js/#{path}-#{digest}.js")
+      |> Keyword.put_new(:src, "#{base_url(conn)}/js/#{path}-#{digest}.js")
 
     content_tag(:script, "", opts)
+  end
+
+  defp base_url(conn) do
+    Application.get_env(:phoenix_asset_pipeline, :assets_url) ||
+      "#{conn.scheme}://#{conn.host}:4001"
   end
 end
