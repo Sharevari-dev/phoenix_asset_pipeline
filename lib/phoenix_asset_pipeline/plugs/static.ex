@@ -1,4 +1,4 @@
-defmodule PhoenixAssetPipeline.Plugs.Static do
+defmodule PhoenixAssetPipeline.Plug.Static do
   @moduledoc false
 
   def init(opts), do: config(opts)
@@ -8,13 +8,10 @@ defmodule PhoenixAssetPipeline.Plugs.Static do
   end
 
   defp config(opts) do
-    at = Keyword.get(opts, :at, "/")
-    from = Keyword.get(opts, :from, "priv/static")
-
     [
-      at: at,
+      at: Keyword.get(opts, :at, "/"),
       brotli: true,
-      from: from,
+      from: Keyword.get(opts, :from, "priv/static"),
       gzip: true
     ]
   end

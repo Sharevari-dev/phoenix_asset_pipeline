@@ -45,30 +45,40 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
 
   import Phoenix.HTML.Tag, only: [content_tag: 3, img_tag: 1]
   alias PhoenixAssetPipeline.Pipelines.{CoffeeScript, Sass}
+  alias Plug.Conn
 
-  def image_tag(conn, path) do
-    img_tag("#{base_url(conn)}/img/#{path}")
+  @assets_url Application.compile_env(:phoenix_asset_pipeline, :assets_url)
+
+  def base_url(conn) do
+    @assets_url || "#{conn.scheme}://#{conn.host}:4001"
   end
 
-  @spec style_tag(binary, [{any, any}]) ::
-          {:safe, [binary | maybe_improper_list(any, binary | []) | 47 | 60 | 62, ...]}
-  def style_tag(path, html_opts \\ []) do
-    content_tag(:style, {:safe, Sass.new(path)}, html_opts)
+  def image_tag(%Conn{} = conn, path) do
+    image_tag(base_url(conn), path)
   end
 
-  def script_tag(conn, path, html_opts \\ []) do
+  def image_tag(assets_url, path) do
+    img_tag("#{assets_url}/img/#{path}")
+  end
+
+  def script_tag(_, _, _ \\ [])
+
+  def script_tag(%Conn{} = conn, path, html_opts) do
+    script_tag(base_url(conn), path, html_opts)
+  end
+
+  def script_tag(assets_url, path, html_opts) do
     {_, digest, integrity} = CoffeeScript.new(path)
 
     opts =
       html_opts
       |> Keyword.put_new(:integrity, "sha384-" <> integrity)
-      |> Keyword.put_new(:src, "#{base_url(conn)}/js/#{path}-#{digest}.js")
+      |> Keyword.put_new(:src, "#{assets_url}/js/#{path}-#{digest}.js")
 
     content_tag(:script, "", opts)
   end
 
-  defp base_url(conn) do
-    Application.get_env(:phoenix_asset_pipeline, :assets_url) ||
-      "#{conn.scheme}://#{conn.host}:4001"
+  def style_tag(path, html_opts \\ []) do
+    content_tag(:style, {:safe, Sass.new(path)}, html_opts)
   end
 end
