@@ -43,15 +43,15 @@ defmodule PhoenixAssetPipeline.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:brotli, "~> 0.2"},
       {:coffee_compiler, "~> 0.1"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.0", only: :dev, runtime: false},
+      {:dialyxir, "~> 1.1", only: :dev, runtime: false},
       {:ex_doc, "~> 0.23", only: :dev, runtime: false},
       {:file_system, "~> 0.2"},
       {:phoenix, "~> 1.5.0"},
       {:phoenix_html, "~> 2.14"},
-      {:plug_cowboy, "~> 2.0"},
+      {:phoenix_live_view, "~> 0.15", optional: true},
+      {:plug_cowboy, "~> 2.4"},
       {:sass_compiler, "~> 0.1"}
     ]
   end

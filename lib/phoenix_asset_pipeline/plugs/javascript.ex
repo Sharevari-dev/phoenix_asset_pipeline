@@ -1,7 +1,10 @@
-defmodule PhoenixAssetPipeline.Plugs.JavaScript do
+defmodule PhoenixAssetPipeline.Plug.JavaScript do
+  @moduledoc false
+
   use Plug.ErrorHandler
 
   import Plug.Conn
+  alias PhoenixAssetPipeline.Pipelines
 
   @allowed_methods ~w(GET HEAD)
 
@@ -15,7 +18,7 @@ defmodule PhoenixAssetPipeline.Plugs.JavaScript do
       when method in @allowed_methods do
     case Regex.named_captures(~r/(?<path>.*)-.{32}\.js$/, Enum.join(segments, "/")) do
       %{"path" => path} ->
-        {js, _digest, _integrity} = PhoenixAssetPipeline.Pipelines.CoffeeScript.new(path)
+        {js, _digest, _integrity} = Pipelines.CoffeeScript.new(path)
 
         conn
         |> put_resp_content_type("application/javascript")
