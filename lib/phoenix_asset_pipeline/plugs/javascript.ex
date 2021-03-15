@@ -1,4 +1,4 @@
-defmodule PhoenixAssetPipeline.Plug.JavaScript do
+defmodule PhoenixAssetPipeline.Plugs.JavaScript do
   @moduledoc false
 
   use Plug.ErrorHandler

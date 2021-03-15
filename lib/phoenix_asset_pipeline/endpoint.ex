@@ -4,7 +4,7 @@ defmodule PhoenixAssetPipeline.Endpoint do
   use Plug.Builder
 
   alias Plug.SSL
-  alias PhoenixAssetPipeline.Plug.{JavaScript, Static}
+  alias PhoenixAssetPipeline.Plugs.{JavaScript, Static}
 
   plug(:ssl)
   plug(:static)

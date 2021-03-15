@@ -1,4 +1,4 @@
-defmodule PhoenixAssetPipeline.Plug.Static do
+defmodule PhoenixAssetPipeline.Plugs.Static do
   @moduledoc false
 
   def init(opts), do: config(opts)

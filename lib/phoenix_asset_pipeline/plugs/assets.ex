@@ -1,4 +1,4 @@
-defmodule PhoenixAssetPipeline.Plug.Assets do
+defmodule PhoenixAssetPipeline.Plugs.Assets do
   @moduledoc false
 
   import Plug.Conn
