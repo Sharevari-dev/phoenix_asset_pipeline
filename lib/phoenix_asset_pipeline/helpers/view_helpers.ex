@@ -4,11 +4,11 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
 
   Provides helpers for views
 
-    * image_tag/2
+    * image_tag/3
 
-    * style_tag/1
+    * style_tag/2
 
-    * script_tag/2
+    * script_tag/3
 
   for phoenix_asset_pipeline assets
 
@@ -43,7 +43,7 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
     end
   """
 
-  import Phoenix.HTML.Tag, only: [content_tag: 3, img_tag: 1]
+  import Phoenix.HTML.Tag, only: [content_tag: 3, img_tag: 2]
   alias PhoenixAssetPipeline.Pipelines.{CoffeeScript, Sass}
   alias Plug.Conn
 
@@ -53,32 +53,34 @@ defmodule PhoenixAssetPipeline.ViewHelpers do
     @assets_url || "#{conn.scheme}://#{conn.host}:4001"
   end
 
-  def image_tag(%Conn{} = conn, path) do
-    image_tag(base_url(conn), path)
+  def image_tag(_, _, _ \\ [])
+
+  def image_tag(%Conn{} = conn, path, opts) do
+    image_tag(base_url(conn), path, opts)
   end
 
-  def image_tag(assets_url, path) do
-    img_tag("#{assets_url}/img/#{path}")
+  def image_tag(assets_url, path, opts) do
+    img_tag("#{assets_url}/img/#{path}", opts)
   end
 
   def script_tag(_, _, _ \\ [])
 
-  def script_tag(%Conn{} = conn, path, html_opts) do
-    script_tag(base_url(conn), path, html_opts)
+  def script_tag(%Conn{} = conn, path, opts) do
+    script_tag(base_url(conn), path, opts)
   end
 
-  def script_tag(assets_url, path, html_opts) do
+  def script_tag(assets_url, path, opts) do
     {_, digest, integrity} = CoffeeScript.new(path)
 
     opts =
-      html_opts
+      opts
       |> Keyword.put_new(:integrity, "sha384-" <> integrity)
       |> Keyword.put_new(:src, "#{assets_url}/js/#{path}-#{digest}.js")
 
     content_tag(:script, "", opts)
   end
 
-  def style_tag(path, html_opts \\ []) do
-    content_tag(:style, {:safe, Sass.new(path)}, html_opts)
+  def style_tag(path, opts \\ []) do
+    content_tag(:style, {:safe, Sass.new(path)}, opts)
   end
 end
