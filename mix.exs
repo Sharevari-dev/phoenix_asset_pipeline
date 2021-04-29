@@ -46,12 +46,12 @@ defmodule PhoenixAssetPipeline.MixProject do
       {:coffee_compiler, "~> 0.1"},
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
       {:dialyxir, "~> 1.1", only: :dev, runtime: false},
-      {:ex_doc, "~> 0.23", only: :dev, runtime: false},
+      {:ex_doc, "~> 0.24", only: :dev, runtime: false},
       {:file_system, "~> 0.2"},
-      {:phoenix, "~> 1.5.0"},
+      {:phoenix, "~> 1.5"},
       {:phoenix_html, "~> 2.14"},
       {:phoenix_live_view, "~> 0.15", optional: true},
-      {:plug_cowboy, "~> 2.4"},
+      {:plug_cowboy, "~> 2.5"},
       {:sass_compiler, "~> 0.1"}
     ]
   end
